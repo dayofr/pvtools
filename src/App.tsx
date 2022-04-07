@@ -36,7 +36,7 @@ function App() {
   }, [pvgis]);
 
   const handleChange = (event: SelectChangeEvent<HTMLInputElement>) => {
-    setMonth(event.target.value);
+    setMonth(event.target.value as string);
   };
 
   return (

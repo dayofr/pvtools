@@ -32,9 +32,7 @@ export default function DropzoneEnedis({
         sliced.forEach((value) => {
           const d = value[0].match(regex);
           if (d !== null)
-            datapoints.push(
-              new Datapoint(d[1], d[2], d[3], d[4], (value[1] / 1).toString(10))
-            );
+            datapoints.push(new Datapoint(d[1], d[2], d[3], d[4], value[1]));
         });
 
         const res = datapoints.reduce(
