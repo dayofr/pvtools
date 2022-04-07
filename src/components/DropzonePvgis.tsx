@@ -8,7 +8,7 @@ export default function DropzonePvgis({
   setPvgis,
   setNameFile,
 }: {
-  setPvgis: Dispatch<SetStateAction<string>>;
+  setPvgis: Dispatch<SetStateAction<{ data: { [index: string]: any } }>>;
   setNameFile: Dispatch<SetStateAction<string>>;
 }) {
   const onDrop = useCallback((acceptedFiles) => {
@@ -20,7 +20,7 @@ export default function DropzonePvgis({
       reader.onerror = () => console.log("file reading has failed");
       reader.onload = () => {
         const json = {
-          data: {},
+          data: {} as { [index: string]: any },
         };
         // Do whatever you want with the file contents
         const datapoints: Datapoint[] = [];
@@ -33,7 +33,15 @@ export default function DropzonePvgis({
           if (d !== null)
             datapoints.push(new Datapoint(d[1], d[2], d[3], d[4], value[1]));
         });
-        const res = datapoints.groupBy(({ month }: { month: string }) => month);
+        const res = datapoints.reduce(
+          (group: { [index: string]: any }, datapoint) => {
+            const { month } = datapoint;
+            group[month] = group[month] ?? [];
+            group[month].push(datapoint);
+            return group;
+          },
+          {}
+        );
 
         for (let m in res) {
           res[m] = res[m].groupBy(({ hour }: { hour: string }) => hour);
