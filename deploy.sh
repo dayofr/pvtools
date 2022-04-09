@@ -6,7 +6,7 @@ set -e
 npm ci
 
 # build
-npm run build
+npm run build:no-ts
 
 # navigate into the build output directory
 cd dist

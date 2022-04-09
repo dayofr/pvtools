@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
-import "core-js/actual/array/group-by";
 
 export default function DropzonePvgis({
   setPvgis,

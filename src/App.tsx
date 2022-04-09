@@ -11,17 +11,12 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import Stats from "./components/Stats";
 
 function App() {
   const [month, setMonth] = useState("01");
   const [nameFile, setNameFile] = useState("");
-
-  interface pvgis {
-    data: {};
-  }
-
-  const [pvgis, setPvgis] = useState<pvgis>(() => {
-    // getting stored value
+  const [pvgis, setPvgis] = useState<{ data: {} }>(() => {
     const saved = localStorage.getItem(nameFile);
     if (saved === null) {
       return { data: {} };
@@ -29,11 +24,22 @@ function App() {
     const initialValue = JSON.parse(saved);
     return initialValue || { data: {} };
   });
-
   useEffect(() => {
-    // storing input name
     localStorage.setItem(nameFile, JSON.stringify(pvgis));
   }, [pvgis]);
+
+  const [enedisFile, setEnedisFile] = useState("");
+  const [enedis, setEnedis] = useState<{ data: {} }>(() => {
+    const saved = localStorage.getItem(enedisFile);
+    if (saved === null) {
+      return { data: {} };
+    }
+    const initialValue = JSON.parse(saved);
+    return initialValue || { data: {} };
+  });
+  useEffect(() => {
+    localStorage.setItem(enedisFile, JSON.stringify(enedis));
+  }, [enedis]);
 
   const handleChange = (event: SelectChangeEvent<HTMLInputElement>) => {
     setMonth(event.target.value as string);
@@ -44,7 +50,7 @@ function App() {
       <Menu />
       <div id="dropzones">
         <DropzonePvgis setPvgis={setPvgis} setNameFile={setNameFile} />
-        <DropzoneEnedis setPvgis={setPvgis} setNameFile={setNameFile} />
+        <DropzoneEnedis setEnedis={setEnedis} setEnedisFile={setEnedisFile} />
       </div>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Month</InputLabel>
@@ -79,6 +85,9 @@ function App() {
       </FormControl>
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <Chart month={month} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <Stats month={month} />
       </div>
     </div>
   );

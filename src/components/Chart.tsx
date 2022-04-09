@@ -10,7 +10,8 @@ import {
 } from "recharts";
 
 export default function Chart({ month }: { month: string }) {
-  const d = [];
+  const d: { name: string; value0: number; value1: number; enedis: number }[] =
+    [];
 
   const lsKeys = [];
 
@@ -21,14 +22,20 @@ export default function Chart({ month }: { month: string }) {
     }
   }
 
-  const pvgis = [];
+  const pvgis: { data: {} }[] = [];
+  let enedis: { data: {} } = { data: {} };
   for (const lsKey of lsKeys) {
-    pvgis.push(JSON.parse(localStorage.getItem(lsKey)));
+    if (lsKey.toLowerCase().includes("enedis")) {
+      enedis = JSON.parse(localStorage.getItem(lsKey) || "{}");
+    } else {
+      pvgis.push(JSON.parse(localStorage.getItem(lsKey) || "{}"));
+    }
   }
 
   let max = 0;
 
   [
+    "00",
     "01",
     "02",
     "03",
@@ -52,9 +59,8 @@ export default function Chart({ month }: { month: string }) {
     "21",
     "22",
     "23",
-    "24",
   ].forEach((hour) => {
-    const tmp = { name: hour };
+    const tmp = { name: hour, enedis: 0 };
     pvgis.forEach((value, index) => {
       for (let v in value.data[month]) {
         const v = value.data[month][hour];
@@ -64,6 +70,7 @@ export default function Chart({ month }: { month: string }) {
         }
       }
     });
+    tmp.enedis = enedis.data[month][hour];
     d.push(tmp);
   });
 
@@ -83,14 +90,14 @@ export default function Chart({ month }: { month: string }) {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
-      <YAxis domain={[0, 1500]} />
+      <YAxis domain={[0, 5000]} />
       <Tooltip />
       <Legend />
       <Line name={lsKeys[0]} type="monotone" dataKey="value0" stroke="red" />
       <Line name={lsKeys[1]} type="monotone" dataKey="value1" stroke="blue" />
       <Line name={lsKeys[2]} type="monotone" dataKey="value2" stroke="green" />
       <Line name={lsKeys[3]} type="monotone" dataKey="value3" stroke="orange" />
-      <Line name={lsKeys[4]} type="monotone" dataKey="value3" stroke="black" />
+      <Line name="Enedis" type="monotone" dataKey="enedis" stroke="black" />
     </LineChart>
   );
 }

@@ -2,19 +2,18 @@ import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
-import "core-js/actual/array/group-by";
 
 export default function DropzoneEnedis({
-  setPvgis,
-  setNameFile,
+  setEnedis,
+  setEnedisFile,
 }: {
-  setPvgis: Dispatch<SetStateAction<{ data: { [index: string]: any } }>>;
-  setNameFile: Dispatch<SetStateAction<string>>;
+  setEnedis: Dispatch<SetStateAction<{ data: { [index: string]: any } }>>;
+  setEnedisFile: Dispatch<SetStateAction<string>>;
 }) {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file: File) => {
       const reader = new FileReader();
-      setNameFile(file.name);
+      setEnedisFile(file.name);
 
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
@@ -59,8 +58,8 @@ export default function DropzoneEnedis({
             );
           }
         }
-        console.log(json);
-        setPvgis(json);
+
+        setEnedis(json);
       };
       reader.readAsText(file);
     });
