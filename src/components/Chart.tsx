@@ -1,17 +1,25 @@
 import React from "react";
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
 } from "recharts";
 
 export default function Chart({ month }: { month: string }) {
-  const d: { name: string; value0: number; value1: number; enedis: number }[] =
-    [];
+  interface Values {
+    name: string;
+    value0?: number;
+    value1?: number;
+    value2?: number;
+    value3?: number;
+    enedis?: number;
+  }
+
+  const d: Values[] = [];
 
   const lsKeys = [];
 
@@ -29,7 +37,13 @@ export default function Chart({ month }: { month: string }) {
       };
     };
   }[] = [];
-  let enedis: { data: {} } = { data: {} };
+  let enedis: {
+    data: {
+      [index: string]: {
+        [index: string]: number;
+      };
+    };
+  } = { data: {} };
   for (const lsKey of lsKeys) {
     if (lsKey.toLowerCase().includes("enedis")) {
       enedis = JSON.parse(localStorage.getItem(lsKey) || "{}");
@@ -37,8 +51,6 @@ export default function Chart({ month }: { month: string }) {
       pvgis.push(JSON.parse(localStorage.getItem(lsKey) || "{}"));
     }
   }
-  console.log(pvgis);
-  let max = 0;
 
   [
     "00",
@@ -66,14 +78,11 @@ export default function Chart({ month }: { month: string }) {
     "22",
     "23",
   ].forEach((hour) => {
-    const tmp: { [index: string]: number | string } = { name: hour, enedis: 0 };
+    const tmp: Values = { name: hour, enedis: 0 };
     pvgis.forEach((value, index) => {
       for (let v in value.data[month]) {
-        const v = value.data[month][hour];
-        tmp["value" + index] = v;
-        if (v > max) {
-          max = v;
-        }
+        // @ts-ignore
+        tmp[`value${index}`] = value.data[month][hour];
       }
     });
     tmp.enedis = enedis.data[month][hour];
