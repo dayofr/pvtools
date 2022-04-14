@@ -41,7 +41,7 @@ function App() {
     localStorage.setItem(enedisFile, JSON.stringify(enedis));
   }, [enedis]);
 
-  const handleChange = (event: SelectChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     setMonth(event.target.value as string);
   };
 
