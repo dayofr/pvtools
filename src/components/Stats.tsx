@@ -216,32 +216,42 @@ export default function Stats({ month }: { month: string }) {
                 <tr key={index}>
                   <td>{value}</td>
                   <td>
-                    {`value${index}` in redu && format(redu[`value${index}`])}
+                    {`value${index}` in redu &&
+                      format(redu[`value${index}` as keyof Redu] || 0)}
                   </td>
                   <td>
                     {`autoconso${index}` in redu &&
                       `value${index}` in redu &&
                       format(
-                        (redu[`autoconso${index}`] / redu[`value${index}`]) *
-                          100
+                        (redu[`autoconso${index}` as keyof Redu] ||
+                          0 / (redu[`value${index}` as keyof Redu] || 1)) * 100
                       )}
                     %
                   </td>
                   <td>
                     {redu.enedis !== undefined &&
                       `autoconso${index}` in redu &&
-                      format((redu[`autoconso${index}`] / redu.enedis) * 100)}
+                      format(
+                        (redu[`autoconso${index}` as keyof Redu] ||
+                          0 / redu.enedis) * 100
+                      )}
                     %
                   </td>
                   <td>
                     {`value${index}` in redu &&
                       `autoconso${index}` in redu &&
-                      format(redu[`value${index}`] - redu[`autoconso${index}`])}
+                      format(
+                        redu[`value${index}` as keyof Redu] ||
+                          0 - (redu[`autoconso${index}` as keyof Redu] || 1)
+                      )}
                   </td>
                   <td>
                     {redu.enedis !== undefined &&
                       `autoconso${index}` in redu &&
-                      format(redu.enedis - redu[`autoconso${index}`])}
+                      format(
+                        redu.enedis -
+                          (redu[`autoconso${index}` as keyof Redu] || 0)
+                      )}
                   </td>
                 </tr>
               );
