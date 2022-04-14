@@ -22,7 +22,13 @@ export default function Chart({ month }: { month: string }) {
     }
   }
 
-  const pvgis: { data: {} }[] = [];
+  const pvgis: {
+    data: {
+      [index: string]: {
+        [index: string]: number;
+      };
+    };
+  }[] = [];
   let enedis: { data: {} } = { data: {} };
   for (const lsKey of lsKeys) {
     if (lsKey.toLowerCase().includes("enedis")) {
@@ -31,7 +37,7 @@ export default function Chart({ month }: { month: string }) {
       pvgis.push(JSON.parse(localStorage.getItem(lsKey) || "{}"));
     }
   }
-
+  console.log(pvgis);
   let max = 0;
 
   [
@@ -60,7 +66,7 @@ export default function Chart({ month }: { month: string }) {
     "22",
     "23",
   ].forEach((hour) => {
-    const tmp = { name: hour, enedis: 0 };
+    const tmp: { [index: string]: number | string } = { name: hour, enedis: 0 };
     pvgis.forEach((value, index) => {
       for (let v in value.data[month]) {
         const v = value.data[month][hour];
@@ -76,6 +82,8 @@ export default function Chart({ month }: { month: string }) {
 
   d.sort((a, b) => (a.name > b.name ? 1 : a.name > b.name ? -1 : 0));
 
+  const colors = ["red", "green", "blue", "orange", "purple"];
+  let valueIndex = -1;
   return (
     <LineChart
       width={1400}
@@ -93,10 +101,20 @@ export default function Chart({ month }: { month: string }) {
       <YAxis domain={[0, 5000]} />
       <Tooltip />
       <Legend />
-      <Line name={lsKeys[0]} type="monotone" dataKey="value0" stroke="red" />
-      <Line name={lsKeys[1]} type="monotone" dataKey="value1" stroke="blue" />
-      <Line name={lsKeys[2]} type="monotone" dataKey="value2" stroke="green" />
-      <Line name={lsKeys[3]} type="monotone" dataKey="value3" stroke="orange" />
+      {lsKeys.map((value, index) => {
+        if (value.startsWith("pvgis__")) {
+          valueIndex++;
+          return (
+            <Line
+              name={value}
+              type="monotone"
+              dataKey={"value" + valueIndex}
+              stroke={colors[valueIndex]}
+              key={index}
+            />
+          );
+        }
+      })}
       <Line name="Enedis" type="monotone" dataKey="enedis" stroke="black" />
     </LineChart>
   );

@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
+import "core-js/actual/array/group-by";
 
 export default function DropzonePvgis({
   setPvgis,
@@ -13,7 +14,7 @@ export default function DropzonePvgis({
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file: File) => {
       const reader = new FileReader();
-      setNameFile(file.name);
+      setNameFile("pvgis__" + file.name);
 
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
