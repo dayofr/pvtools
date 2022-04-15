@@ -83,7 +83,9 @@ export default function Stats({ month }: { month: string }) {
         tmp[`value${index}`] = value.data[month][hour];
       }
     });
-    tmp.enedis = enedis.data[month][hour];
+    if (enedis.data[month] !== undefined) {
+      tmp.enedis = enedis.data[month][hour];
+    }
     d.push(tmp);
   });
 
