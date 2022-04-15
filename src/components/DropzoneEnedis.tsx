@@ -53,7 +53,7 @@ export default function DropzoneEnedis({
           for (let d in res[m]) {
             json.data[m][d] = Math.round(
               res[m][d].reduce(
-                (curr: number, b: Datapoint) => curr + b.production,
+                (curr: number, b: Datapoint) => curr + (b.production || 0),
                 0
               ) / res[m][d].length
             );
