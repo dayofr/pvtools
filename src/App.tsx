@@ -50,7 +50,11 @@ function App() {
       <Menu />
       <div id="dropzones">
         <DropzonePvgis setPvgis={setPvgis} setNameFile={setNameFile} />
-        <DropzoneEnedis setEnedis={setEnedis} setEnedisFile={setEnedisFile} />
+        <DropzoneEnedis
+          setEnedis={setEnedis}
+          setEnedisFile={setEnedisFile}
+          enedisFile={enedisFile}
+        />
       </div>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Month</InputLabel>

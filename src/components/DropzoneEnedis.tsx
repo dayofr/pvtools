@@ -3,13 +3,17 @@ import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
 import "core-js/actual/array/group-by";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DropzoneEnedis({
   setEnedis,
   setEnedisFile,
+  enedisFile,
 }: {
   setEnedis: Dispatch<SetStateAction<{ data: { [index: string]: any } }>>;
   setEnedisFile: Dispatch<SetStateAction<string>>;
+  enedisFile: string;
 }) {
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file: File) => {
@@ -68,9 +72,30 @@ export default function DropzoneEnedis({
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      <p>Drag 'n' drop your Enedis file here</p>
+    <div>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop your Enedis file here</p>
+      </div>
+      {enedisFile !== "" && enedisFile !== undefined && (
+        <div>
+          <ul>
+            <li>
+              {enedisFile}{" "}
+              <IconButton
+                aria-label="delete"
+                size="small"
+                onClick={() => {
+                  localStorage.removeItem(enedisFile);
+                  setEnedisFile("");
+                }}
+              >
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
