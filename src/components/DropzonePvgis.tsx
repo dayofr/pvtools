@@ -3,6 +3,8 @@ import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
 import "core-js/actual/array/group-by";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DropzonePvgis({
   setPvgis,
@@ -63,10 +65,47 @@ export default function DropzonePvgis({
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+  let pvgisFiles: string[] = [];
+  for (let i = 0; i < 10; i++) {
+    const tmpKey = localStorage.key(i);
+    if (
+      tmpKey !== null &&
+      tmpKey !== "" &&
+      !tmpKey.toLowerCase().includes("enedis")
+    ) {
+      pvgisFiles.push(tmpKey);
+    }
+  }
+
   return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      <p>Drag 'n' drop your PVGIS file here</p>
+    <div>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop your PVGIS file here</p>
+      </div>
+      {pvgisFiles.length > 0 && (
+        <div>
+          <ul>
+            {pvgisFiles.map((name, index) => {
+              return (
+                <li key={index}>
+                  {name}{" "}
+                  <IconButton
+                    aria-label="delete"
+                    size="small"
+                    onClick={() => {
+                      localStorage.removeItem(name);
+                      pvgisFiles = pvgisFiles.filter((value) => value !== name);
+                    }}
+                  >
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
