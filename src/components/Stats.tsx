@@ -78,6 +78,7 @@ export default function Stats({ month }: { month: string }) {
       enedis?: number;
     } = { name: hour, enedis: 0 };
     pvgis.forEach((value, index) => {
+      // eslint-disable-next-line no-unused-vars
       for (let v in value.data[month]) {
         // @ts-ignore
         tmp[`value${index}`] = value.data[month][hour];

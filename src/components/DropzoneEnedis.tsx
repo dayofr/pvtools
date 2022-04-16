@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
@@ -75,7 +75,7 @@ export default function DropzoneEnedis({
     <div>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop your Enedis file here</p>
+        <p>Drag n drop your Enedis file here</p>
       </div>
       {enedisFile !== "" && enedisFile !== undefined && (
         <div>

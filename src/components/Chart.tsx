@@ -1,4 +1,3 @@
-import React from "react";
 import {
   CartesianGrid,
   Legend,
@@ -80,6 +79,7 @@ export default function Chart({ month }: { month: string }) {
   ].forEach((hour) => {
     const tmp: Values = { name: hour, enedis: 0 };
     pvgis.forEach((value, index) => {
+      // eslint-disable-next-line no-unused-vars
       for (let v in value.data[month]) {
         // @ts-ignore
         tmp[`value${index}`] = value.data[month][hour];

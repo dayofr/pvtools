@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { parse } from "papaparse";
 import Datapoint from "../Datapoint";
@@ -81,7 +81,7 @@ export default function DropzonePvgis({
     <div>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop your PVGIS file here</p>
+        <p>Drag n drop your PVGIS file here</p>
       </div>
       {pvgisFiles.length > 0 && (
         <div>
