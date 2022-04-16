@@ -27,7 +27,19 @@ function Estimate() {
     localStorage.setItem(nameFile, JSON.stringify(pvgis));
   }, [pvgis]);
 
-  const [enedisFile, setEnedisFile] = useState("");
+  const [enedisFile, setEnedisFile] = useState(() => {
+    for (let i = 0; i < 10; i++) {
+      const tmpKey = localStorage.key(i);
+      if (
+        tmpKey !== null &&
+        tmpKey !== "" &&
+        tmpKey.toLowerCase().includes("enedis")
+      ) {
+        return tmpKey;
+      }
+    }
+    return "";
+  });
   const [enedis, setEnedis] = useState<{ data: {} }>(() => {
     const saved = localStorage.getItem(enedisFile);
     if (saved === null) {
