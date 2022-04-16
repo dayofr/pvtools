@@ -1,8 +1,7 @@
-import "./App.css";
-import Menu from "./components/Menu";
-import DropzonePvgis from "./components/DropzonePvgis";
-import DropzoneEnedis from "./components/DropzoneEnedis";
-import Chart from "./components/Chart";
+import "../App.css";
+import DropzonePvgis from "../components/DropzonePvgis";
+import DropzoneEnedis from "../components/DropzoneEnedis";
+import Chart from "../components/Chart";
 import { useEffect, useState } from "react";
 import {
   FormControl,
@@ -11,9 +10,9 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import Stats from "./components/Stats";
+import Stats from "../components/Stats";
 
-function App() {
+function Estimate() {
   const [month, setMonth] = useState("01");
   const [nameFile, setNameFile] = useState("");
   const [pvgis, setPvgis] = useState<{ data: {} }>(() => {
@@ -47,7 +46,6 @@ function App() {
 
   return (
     <div className="App">
-      <Menu />
       <div id="dropzones">
         <DropzonePvgis setPvgis={setPvgis} setNameFile={setNameFile} />
         <DropzoneEnedis
@@ -97,4 +95,4 @@ function App() {
   );
 }
 
-export default App;
+export default Estimate;
