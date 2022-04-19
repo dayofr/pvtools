@@ -199,7 +199,7 @@ export default function Stats({ month }: { month: string }) {
 
   return (
     <div>
-      {redu.enedis}
+      {format(redu.enedis || 0)}
       <table>
         <thead>
           <tr>
@@ -226,8 +226,9 @@ export default function Stats({ month }: { month: string }) {
                     {`autoconso${index}` in redu &&
                       `value${index}` in redu &&
                       format(
-                        (redu[`autoconso${index}` as keyof Redu] ||
-                          0 / (redu[`value${index}` as keyof Redu] || 1)) * 100
+                        ((redu[`autoconso${index}` as keyof Redu] || 0) /
+                          (redu[`value${index}` as keyof Redu] || 1)) *
+                          100
                       )}
                     %
                   </td>
@@ -235,8 +236,9 @@ export default function Stats({ month }: { month: string }) {
                     {redu.enedis !== undefined &&
                       `autoconso${index}` in redu &&
                       format(
-                        (redu[`autoconso${index}` as keyof Redu] ||
-                          0 / redu.enedis) * 100
+                        ((redu[`autoconso${index}` as keyof Redu] || 0) /
+                          redu.enedis) *
+                          100
                       )}
                     %
                   </td>
@@ -244,8 +246,8 @@ export default function Stats({ month }: { month: string }) {
                     {`value${index}` in redu &&
                       `autoconso${index}` in redu &&
                       format(
-                        redu[`value${index}` as keyof Redu] ||
-                          0 - (redu[`autoconso${index}` as keyof Redu] || 1)
+                        (redu[`value${index}` as keyof Redu] || 0) -
+                          (redu[`autoconso${index}` as keyof Redu] || 1)
                       )}
                   </td>
                   <td>
