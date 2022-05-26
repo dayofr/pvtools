@@ -56,6 +56,21 @@ function Estimate() {
     setMonth(event.target.value as string);
   };
 
+  const monthsName: Record<string, string> = {
+    "01": "Janvier",
+    "02": "Février",
+    "03": "Mars",
+    "04": "Avril",
+    "05": "Mai",
+    "06": "Juin",
+    "07": "Juillet",
+    "08": "Aout",
+    "09": "Septembre",
+    "10": "Octobre",
+    "11": "Novembre",
+    "12": "Decembre",
+  };
+
   return (
     <div className="App">
       <div id="dropzones">
@@ -91,7 +106,7 @@ function Estimate() {
           ].map((v) => {
             return (
               <MenuItem value={v} key={v}>
-                {v}
+                {monthsName[v]}
               </MenuItem>
             );
           })}
