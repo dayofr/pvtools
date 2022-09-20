@@ -18,12 +18,9 @@ export default function DropzoneEnedis({
     acceptedFiles.forEach((file: File) => {
       setEnedisFile("enedis__" + file.name);
       const reader = new FileReader();
-
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
-      reader.onload = () => {
-        setEnedis(enedis(reader.result as string));
-      };
+      reader.onload = () => setEnedis(enedis(reader.result as string));
       reader.readAsText(file);
     });
   }, []);
