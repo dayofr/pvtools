@@ -1,16 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Menu from "./components/Menu";
+import { RouterProvider } from "react-router-dom";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { colorMode as colorModeAtom } from "./components/store/ColorMode";
+import { colorMode as colorModeAtom } from "@/components/store/ColorMode";
 import Box from "@mui/material/Box";
-
-const Estimate = React.lazy(() => import("./routes/Estimate"));
-const Home = React.lazy(() => import("./routes/Home"));
-const Merge = React.lazy(() => import("./routes/Merge"));
+import router from "@/routes/router";
 
 function App() {
   const [colorMode] = useRecoilState(colorModeAtom);
@@ -32,42 +28,14 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Box
-          sx={{
-            bgcolor: "background.default",
-            color: "text.primary",
-          }}
-        >
-          <Menu />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Home />
-                </React.Suspense>
-              }
-            />
-            <Route
-              path="merge"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Merge />
-                </React.Suspense>
-              }
-            />
-            <Route
-              path="estimate"
-              element={
-                <React.Suspense fallback={<>...</>}>
-                  <Estimate />
-                </React.Suspense>
-              }
-            />
-          </Routes>{" "}
-        </Box>
-      </BrowserRouter>
+      <Box
+        sx={{
+          bgcolor: "background.default",
+          color: "text.primary",
+        }}
+      >
+        <RouterProvider router={router} />
+      </Box>
     </ThemeProvider>
   );
 }
