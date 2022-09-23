@@ -1,24 +1,31 @@
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import "core-js/actual/array/group-by";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import pvgis from "../drops/pvgis";
+import Pvgis from "../drops/pvgis";
 
-export default function DropzonePvgis({
-  setPvgis,
-  setNameFile,
-}: {
-  setPvgis: Dispatch<SetStateAction<{ data: { [index: string]: any } }>>;
-  setNameFile: Dispatch<SetStateAction<string>>;
-}) {
+export default function DropzonePvgis() {
+  const [nameFile, setNameFile] = useState("");
+  const [pvgis, setPvgis] = useState<{ data: {} }>(() => {
+    const saved = localStorage.getItem(nameFile);
+    if (saved === null) {
+      return { data: {} };
+    }
+    const initialValue = JSON.parse(saved);
+    return initialValue || { data: {} };
+  });
+  useEffect(() => {
+    localStorage.setItem(nameFile, JSON.stringify(pvgis));
+  }, [pvgis]);
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.forEach((file: File) => {
       setNameFile("pvgis__" + file.name);
       const reader = new FileReader();
       reader.onabort = () => console.log("file reading was aborted");
       reader.onerror = () => console.log("file reading has failed");
-      reader.onload = () => setPvgis(pvgis(reader.result as string));
+      reader.onload = () => setPvgis(Pvgis(reader.result as string));
       reader.readAsText(file);
     });
   }, []);

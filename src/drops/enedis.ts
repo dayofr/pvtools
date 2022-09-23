@@ -1,7 +1,7 @@
 import Datapoint from "../Datapoint";
 import { parse } from "papaparse";
 
-export default (binaryStr: string): { [index: string]: any } => {
+export default (binaryStr: string): { data: { [index: string]: any } } => {
   const json = {
     data: {} as { [index: string]: any },
   };

@@ -2,7 +2,7 @@ import "../App.css";
 import DropzonePvgis from "../components/DropzonePvgis";
 import DropzoneEnedis from "../components/DropzoneEnedis";
 import Chart from "../components/Chart";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -14,43 +14,6 @@ import Stats from "../components/Stats";
 
 function Estimate() {
   const [month, setMonth] = useState("01");
-  const [nameFile, setNameFile] = useState("");
-  const [pvgis, setPvgis] = useState<{ data: {} }>(() => {
-    const saved = localStorage.getItem(nameFile);
-    if (saved === null) {
-      return { data: {} };
-    }
-    const initialValue = JSON.parse(saved);
-    return initialValue || { data: {} };
-  });
-  useEffect(() => {
-    localStorage.setItem(nameFile, JSON.stringify(pvgis));
-  }, [pvgis]);
-
-  const [enedisFile, setEnedisFile] = useState(() => {
-    for (let i = 0; i < 10; i++) {
-      const tmpKey = localStorage.key(i);
-      if (
-        tmpKey !== null &&
-        tmpKey !== "" &&
-        tmpKey.toLowerCase().includes("enedis")
-      ) {
-        return tmpKey;
-      }
-    }
-    return "";
-  });
-  const [enedis, setEnedis] = useState<{ data: {} }>(() => {
-    const saved = localStorage.getItem(enedisFile);
-    if (saved === null) {
-      return { data: {} };
-    }
-    const initialValue = JSON.parse(saved);
-    return initialValue || { data: {} };
-  });
-  useEffect(() => {
-    localStorage.setItem(enedisFile, JSON.stringify(enedis));
-  }, [enedis]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setMonth(event.target.value as string);
@@ -72,14 +35,10 @@ function Estimate() {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ padding: "1rem" }}>
       <div id="dropzones">
-        <DropzonePvgis setPvgis={setPvgis} setNameFile={setNameFile} />
-        <DropzoneEnedis
-          setEnedis={setEnedis}
-          setEnedisFile={setEnedisFile}
-          enedisFile={enedisFile}
-        />
+        <DropzonePvgis />
+        <DropzoneEnedis />
       </div>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Month</InputLabel>
