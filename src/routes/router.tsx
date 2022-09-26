@@ -4,6 +4,7 @@ import Root from "@/routes/Root";
 import Home from "@/routes/Home";
 import Estimate from "@/routes/Estimate";
 import Merge from "@/routes/Merge";
+import Compare from "@/routes/Compare";
 
 export default createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export default createBrowserRouter([
       {
         path: "estimate",
         element: <Estimate />,
+      },
+      {
+        path: "compare",
+        element: <Compare />,
       },
     ],
   },
