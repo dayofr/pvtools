@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "5.30.6",
     "@vitejs/plugin-react": "2.1.0",
     "eslint": "8.19.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "7.30.1",
     "prettier": "2.7.1",
     "rollup-plugin-visualizer": "5.7.1",
